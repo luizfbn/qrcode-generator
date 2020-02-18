@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width">
+        <script src="https://cdn.jsdelivr.net/npm/vue@2.6.11"></script>
+        <script src="./node_modules/qrious/dist/qrious.js"></script>
+
+        <title>QRcode Generator</title>
+    </head>
+
+    <body>
+        <div id="app">
+            <h1>{{ title }}</h1>
+            <input type="text" v-model="data" placeholder="Insira seu texto">
+            <div v-if="data">
+                <img :src="generateQRcode" alt="QRCode image">
+            </div>
+        </div>
+
+        <script>
+            new Vue({
+                el: '#app',
+                data: {
+                    title: 'QRcode Generator',
+                    data: '',
+                    qrcode: new QRious()
+                },
+                computed: {
+                    generateQRcode() {
+                        this.qrcode.size = 300
+                        this.qrcode.value = this.data
+                        return this.qrcode.toDataURL()
+                    }
+                }
+            })
+        </script>
+        <style>
+            * {
+                font-family: Arial, Helvetica, sans-serif;
+                margin: 0;
+                padding: 0;
+            }
+            html {
+                height: 100%;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+            }
+            body {
+                display: flex;
+                justify-content: center;
+                background-color: plum;
+                background-image: radial-gradient(circle, ghostwhite 30%, plum 70%);
+            }
+            #app {
+                display: flex;
+                flex-direction: column;
+                background-color: transparent;
+                padding: 20px;
+                border-radius: 20px;
+                min-width: 300px;
+                text-align: center;
+            }
+            #app h1 {
+                margin: 10px;
+            }
+            #app input {
+                margin: 10px 5px;
+                padding: 10px; 
+                text-align: center;
+            }
+        </style>
+    </body>
+</html>
